@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { HttpClientModule } from '@angular/common/http';
 
 
 import { AppComponent } from './app.component';
@@ -15,7 +16,7 @@ import { ViewReportsComponent, SafePipe } from './components/view-reports/view-r
 import { UploadReportsComponent } from './components/upload-reports/upload-reports.component';
 import { EditReportsComponent } from './components/edit-reports/edit-reports.component';
 import { Browser } from 'protractor';
-import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -24,8 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
     ViewReportsComponent,
     SafePipe,
     UploadReportsComponent,
-    EditReportsComponent,
-    HttpClientModule
+    EditReportsComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +35,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

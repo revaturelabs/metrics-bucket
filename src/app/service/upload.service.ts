@@ -11,7 +11,10 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UploadService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.getToken();    
+    console.log("Got here");
+  }
   bucketName = environment.bucketName;
 
   bucket = new S3(
@@ -23,10 +26,15 @@ export class UploadService {
   );
 
   getToken(){
-    let response:Promise<String> = this.http.get("http://ec2-18-216-92-38.us-east-2.compute.amazonaws.com:8080/getToken").toPromise().then(result =>{
-      console.log(result)    })
-      return response;
+    let response = this.http.get("http://ec2-18-191-211-170.us-east-2.compute.amazonaws.com:9999/tokens").toPromise().then(result =>{
+      console.log(result)    
+      console.log("I need to get here")}
+    );
+      
+    console.log("I shold get here too");
+    return response;
   }
+
   uploadReport(file, project: string, filepath: string) {
 
     const params = {
