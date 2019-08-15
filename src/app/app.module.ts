@@ -15,6 +15,7 @@ import { ViewReportsComponent, SafePipe } from './components/view-reports/view-r
 import { UploadReportsComponent } from './components/upload-reports/upload-reports.component';
 import { EditReportsComponent } from './components/edit-reports/edit-reports.component';
 import { Browser } from 'protractor';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { Browser } from 'protractor';
     ViewReportsComponent,
     SafePipe,
     UploadReportsComponent,
-    EditReportsComponent
+    EditReportsComponent,
+    HttpClientModule
   ],
   imports: [
     BrowserModule,

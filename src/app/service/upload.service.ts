@@ -3,13 +3,15 @@ import * as S3 from 'aws-sdk/clients/s3';
 import { Observable } from 'rxjs';
 import { of as observableOf } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class UploadService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
   bucketName = environment.bucketName;
 
   bucket = new S3(
@@ -20,6 +22,11 @@ export class UploadService {
     }
   );
 
+  getToken(){
+    let response:Promise<String> = this.http.get("http://ec2-18-216-92-38.us-east-2.compute.amazonaws.com:8080/getToken").toPromise().then(result =>{
+      console.log(result)    })
+      return response;
+  }
   uploadReport(file, project: string, filepath: string) {
 
     const params = {
