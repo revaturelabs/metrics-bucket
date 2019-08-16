@@ -39,7 +39,7 @@ export class UploadReportsComponent implements OnInit {
   trainers: string[];
   observers: string[];
 
-  constructor(private uploadService : UploadService) { }
+  constructor(private uploadService: UploadService) { }
 
   ngOnInit() {
     this.project = 'Project';
@@ -49,7 +49,7 @@ export class UploadReportsComponent implements OnInit {
   }
 
   selectFiles(event) {
-    for(let i = 0; i<event.target.files.length; i++){
+    for (let i = 0; i < event.target.files.length; i++) {
       this.fileList.push(event.target.files.item(i));
     }
   }
@@ -81,11 +81,11 @@ export class UploadReportsComponent implements OnInit {
     } else {
       this.incorrectStoryPointsAlert = false;
     }
-    
+
     // if all fields are completed
-    if (this.inputStartDate && this.inputEndDate && this.assignedStoryPoints && 
-        this.completedStoryPoints && this.projectSelected && this.iteration &&
-        !this.incorrectStoryPointsAlert && !this.incorrectDateAlert && this.project != "Project") {
+    if (this.inputStartDate && this.inputEndDate && this.assignedStoryPoints &&
+      this.completedStoryPoints && this.projectSelected && this.iteration &&
+      !this.incorrectStoryPointsAlert && !this.incorrectDateAlert && this.project != "Project") {
       this.complete = true;
     } else {
       this.complete = false;
@@ -122,7 +122,7 @@ export class UploadReportsComponent implements OnInit {
     }
   }
 
-    addObserver(event: MatChipInputEvent): void {
+  addObserver(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
 
@@ -153,7 +153,7 @@ export class UploadReportsComponent implements OnInit {
     const startDate = new Date(this.inputStartDate).toDateString();
     const endDate = new Date(this.inputEndDate).toDateString();
     const days = this.getDuration();
-    const velocity = (this.completedStoryPoints/days).toFixed(2);
+    const velocity = (this.completedStoryPoints / days).toFixed(2);
     let trainerList = this.trainers.map(trainer => trainer).join(' ');
     let observerList = this.observers.map(observer => observer).join(' ');
 
@@ -163,7 +163,7 @@ export class UploadReportsComponent implements OnInit {
     if (!observerList) {
       observerList = "Unspecified";
     }
-    if (!this.projectSelected){
+    if (!this.projectSelected) {
       this.projectSelected = true;
     }
 
@@ -182,9 +182,13 @@ export class UploadReportsComponent implements OnInit {
           <b>Start Date:</b> ${startDate}<br>
           <b>End Date:</b> ${endDate} <br>
           <b>Duration:</b> ${days} day(s) <br>
-          <b>Velocity:</b> ${velocity} user stories per day <br>
-          <script src='files.js'></script>
-        </body>
+          <b>Velocity:</b> ${velocity} user stories per day <br>` +
+        this.fileList.map(file => {
+          let link = this.uploadService.bucket.getSignedUrl('getObject', { Bucket: this.uploadService.bucketName, Key: this.project + '/' + this.iteration + '/report/' + file.name });
+          return `<br><a href="${link}">${file.name}</a>`;
+        })
+        +
+        `</body>
       </html>
       `]
       , 'index.html', { type: 'text/html' });
@@ -199,7 +203,7 @@ export class UploadReportsComponent implements OnInit {
       uservice.uploadReport(file, proj, iter + '/report/' + file.name);
     });
     this.uploadService.uploadReport(this.indexFile, this.project, this.iteration + '/index.html');
-    this.uploadService.uploadReport(this.jsFile, this.project, this.iteration + '/files.js');
+    //this.uploadService.uploadReport(this.jsFile, this.project, this.iteration + '/files.js');
     setTimeout(() => {
       this.resetValues();
     }, 2000);

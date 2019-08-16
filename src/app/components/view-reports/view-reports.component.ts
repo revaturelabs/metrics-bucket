@@ -42,7 +42,8 @@ export class ViewReportsComponent implements OnInit {
           secretAccessKey: result.arr[0].secretAccessKey,
           sessionToken: result.arr[0].sessionToken,
           region: "us-east-2", // vhttps://metrics-bucket1906.s3.us-east-2.amazonaws.com/
-          endpoint: "s3.us-east-2.amazonaws.com/"
+          endpoint: "s3.us-east-2.amazonaws.com/",
+          signatureVersion: "v4"
         });
 
     this.bucketName = "metrics-bucket1906";
@@ -56,12 +57,12 @@ export class ViewReportsComponent implements OnInit {
     this.selectedIteration = iter;
     // tslint:disable-next-line: max-line-length
 
-    this.uploadService.bucket.getObject( {Bucket: this.bucketName, Key: this.projectChoice + '/' + iter + '/index.html'}, (err, file) => {
-        console.log(err);
-        console.log(file);
-        this.resp = file.Body;
-      });
-    this.iterationLink = 'https://' + this.bucketName + '.s3.amazonaws.com/' + this.projectChoice + '/' + iter + '/index.html';
+    // this.uploadService.bucket.getObject( {Bucket: this.bucketName, Key: this.projectChoice + '/' + iter + '/index.html'}, (err, file) => {
+    //     console.log(err);
+    //     console.log(file);
+    //     this.resp = file.Body;
+    //   });
+    this.iterationLink = this.uploadService.bucket.getSignedUrl('getObject', {Bucket: this.bucketName, Key: this.projectChoice + '/' + iter + '/index.html'});
   }
 
   showIterations(project: string) {
