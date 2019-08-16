@@ -30,7 +30,7 @@ export class ViewReportsComponent implements OnInit {
   selectedIteration: string;
   iterationViewShow = false;
   testing: any;
-  resp: string;
+  resp: any;
 
   constructor(private uploadService: UploadService) { }
 
