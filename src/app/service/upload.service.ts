@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { of as observableOf } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { CONTROL } from '@angular/cdk/keycodes';
+
 
 
 @Injectable({
@@ -11,28 +13,35 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UploadService {
 
-  constructor(private http: HttpClient) { 
-    this.getToken();    
-    console.log("Got here");
-  }
+  constructor(private http: HttpClient) {
+   }
+
   bucketName = environment.bucketName;
 
   bucket = new S3(
     {
-      accessKeyId:  environment.accessKey,//temp
+      accessKeyId: environment.accessKey ,//temp
       secretAccessKey: environment.secretKey,//temp
-      region: environment.region
+      region: environment.region,
     }
   );
-
-  getToken(){
-    let response = this.http.get("http://ec2-18-191-211-170.us-east-2.compute.amazonaws.com:9999/tokens").toPromise().then(result =>{
+  getToken():void{
+    let response = this.http.get<any>("http://ec2-18-191-211-170.us-east-2.compute.amazonaws.com:9999/tokens").toPromise().then(result =>{
       console.log(result)    
-      console.log("I need to get here")}
-    );
-      
-    console.log("I shold get here too");
-    return response;
+      this.bucket = new S3({
+        accessKeyId: result.arr[0].accessKeyId,
+        secretAccessKey: result.arr[0].secretAccessKey,
+        sessionToken: result.arr[0].sessionToken,
+        region: "us-east-2", // vhttps://metrics-bucket1906.s3.us-east-2.amazonaws.com/
+        endpoint: "s3.us-east-2.amazonaws.com/"
+
+      });
+      console.log(this.bucket);
+      console.log(this.bucket.config.region);
+
+
+    });
+
   }
 
   uploadReport(file, project: string, filepath: string) {
@@ -41,11 +50,12 @@ export class UploadService {
       Bucket: this.bucketName,
       Key: project + '/' + filepath,
       Body: file,
-      ACL: 'public-read',
-      ContentType: file.type
+      ACL: "bucket-owner-full-control",
+      ContentType: "undefined"
 
     };
-
+    console.log(this.bucket);
+    
 
     this.bucket.upload(params, (err, data) => {
       if (err) {

@@ -28,10 +28,12 @@ export class ViewReportsComponent implements OnInit {
   iterationLink: string;
   selectedIteration: string;
   iterationViewShow = false;
+  testing: any;
 
   constructor(private uploadService: UploadService) { }
 
   ngOnInit() {
+    this.testing = this.uploadService.getToken();
     this.bucketName = environment.bucketName;
     this.projectChoice = 'Select Project';
     this.selectedIteration = ' Select Iteration';
@@ -60,4 +62,5 @@ export class ViewReportsComponent implements OnInit {
     this.selectedIteration = 'Select Iteration';
   }
 
+ 
 }

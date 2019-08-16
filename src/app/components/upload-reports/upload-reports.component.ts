@@ -91,6 +91,7 @@ export class UploadReportsComponent implements OnInit {
       this.complete = false;
     }
 
+
   }
 
   getDuration(): number {
@@ -142,6 +143,9 @@ export class UploadReportsComponent implements OnInit {
     }
   }
 
+
+
+
   submit() {
     // send this.fileList, this.iteration, this.project, and this.index to S3 bucket
     this.submitted = true;
@@ -158,6 +162,9 @@ export class UploadReportsComponent implements OnInit {
     }
     if (!observerList) {
       observerList = "Unspecified";
+    }
+    if (!this.projectSelected){
+      this.projectSelected = true;
     }
 
     this.indexFile = new File(

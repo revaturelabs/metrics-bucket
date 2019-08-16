@@ -1,3 +1,4 @@
+
 <div (change)=validate()>
     <h5 class="mx-auto mt-4">Sprint Metrics</h5>
     <div class="row">
@@ -80,8 +81,9 @@
                     <input type="file" id="upload" class="custom-file-input" (change)="selectFiles($event)" multiple>
                     <label class="custom-file-label" for="upload">Upload Files...</label>
                 </div>
-                <button class="btn btn-secondary ml-2" type="button" (click)="submit()"
-                    [disabled]="!complete" id="submitbtn">Submit</button>
+                <!-- <button class="btn btn-secondary ml-2" type="button" (click)="submit()"
+                    [disabled]="!complete" id="submitbtn">Submit</button> -->
+                    <button class="btn btn-secondary ml-2" type="button" (click)="submit()" id="submitbtn">Submit</button>
                 </div>
             </div>
             <p id="note">Note: All fields must be completed before submitting.</p>
