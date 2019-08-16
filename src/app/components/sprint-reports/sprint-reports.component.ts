@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UploadService } from 'src/app/service/upload.service';
 import { Observable } from 'rxjs';
+import { S3 } from 'aws-sdk/clients/all';
 
 @Component({
   selector: 'app-sprint-reports',
@@ -13,10 +14,21 @@ export class SprintReportsComponent implements OnInit {
   projectList: Observable<Array<string>>;
 
   constructor(
-    private uploadService : UploadService) { }
+    private uploadService: UploadService) { }
 
   ngOnInit() {
-    this.projectList = this.uploadService.getProjectList();
+    this.uploadService.getToken().then(
+      (result) => {
+        this.uploadService.bucket = new S3({
+          accessKeyId: result.arr[0].accessKeyId,
+          secretAccessKey: result.arr[0].secretAccessKey,
+          sessionToken: result.arr[0].sessionToken,
+          region: "us-east-2", // vhttps://metrics-bucket1906.s3.us-east-2.amazonaws.com/
+          endpoint: "s3.us-east-2.amazonaws.com/"
+        });
+
+        this.projectList = this.uploadService.getProjectList()
+      });
   }
 
 }

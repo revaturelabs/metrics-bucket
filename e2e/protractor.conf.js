@@ -26,7 +26,7 @@ exports.config = {
     'browserName': 'chrome',
     chromeOptions: {
       // args: ['start-maximized'],
-      args: [ "--headless", "--disable-gpu", "--window-size=1000,1000" ]
+      // args: [ "--headless", "--disable-gpu", "--window-size=1000,1000" ]
     }
   },
 

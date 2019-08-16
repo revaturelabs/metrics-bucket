@@ -5,6 +5,7 @@ import { of as observableOf } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { CONTROL } from '@angular/cdk/keycodes';
+import { Browser } from 'selenium-webdriver';
 
 
 
@@ -14,34 +15,15 @@ import { CONTROL } from '@angular/cdk/keycodes';
 export class UploadService {
 
   constructor(private http: HttpClient) {
-   }
+    this.getToken();
+  }
 
   bucketName = environment.bucketName;
 
-  bucket = new S3(
-    {
-      accessKeyId: environment.accessKey ,//temp
-      secretAccessKey: environment.secretKey,//temp
-      region: environment.region,
-    }
-  );
-  getToken():void{
-    let response = this.http.get<any>("http://ec2-18-191-211-170.us-east-2.compute.amazonaws.com:9999/tokens").toPromise().then(result =>{
-      console.log(result)    
-      this.bucket = new S3({
-        accessKeyId: result.arr[0].accessKeyId,
-        secretAccessKey: result.arr[0].secretAccessKey,
-        sessionToken: result.arr[0].sessionToken,
-        region: "us-east-2", // vhttps://metrics-bucket1906.s3.us-east-2.amazonaws.com/
-        endpoint: "s3.us-east-2.amazonaws.com/"
+  bucket: S3 = new S3();
 
-      });
-      console.log(this.bucket);
-      console.log(this.bucket.config.region);
-
-
-    });
-
+  getToken() {
+    return this.http.get<any>("http://ec2-18-191-211-170.us-east-2.compute.amazonaws.com:9999/tokens").toPromise();
   }
 
   uploadReport(file, project: string, filepath: string) {
@@ -52,10 +34,9 @@ export class UploadService {
       Body: file,
       ACL: "bucket-owner-full-control",
       ContentType: "undefined"
-
     };
     console.log(this.bucket);
-    
+
 
     this.bucket.upload(params, (err, data) => {
       if (err) {
@@ -65,6 +46,7 @@ export class UploadService {
     });
   }
   getProjectList(): Observable<Array<string>> {
+
     const projects = new Array<string>();
 
     const params = {
@@ -72,17 +54,24 @@ export class UploadService {
       Prefix: '',
       Delimiter: '/'
     };
+
+    console.log(this.bucket);
+
     this.bucket.listObjects(params, (err, data) => {
+
       if (err) {
+        console.log(err);
         return;
       }
 
-
+      console.log(data);
       data.CommonPrefixes.forEach((file) => {
         console.log(file.Prefix)
-        if(file.Prefix!==environment.s3appfolder+'/')//ignores s3 application on bucket
-        projects.push(file.Prefix.replace('/', ''));
+        if (file.Prefix !== environment.s3appfolder + '/')//ignores s3 application on bucket
+          projects.push(file.Prefix.replace('/', ''));
       });
+
+      console.log(projects);
     });
 
     return observableOf(projects);
@@ -112,6 +101,7 @@ export class UploadService {
   }
 
   getIterationFiles(project: string, iter: string): Array<string> {
+
     const files = new Array<string>();
     const prefix = project + '/' + iter + '/report/';
     const params = {
@@ -120,6 +110,8 @@ export class UploadService {
     };
 
     this.bucket.listObjects(params, (err, data) => {
+  
+
       if (err) {
         return;
       }
@@ -134,6 +126,7 @@ export class UploadService {
   }
 
   deleteFiles(project: string, iter: string, filename: string) {
+
     const key = project + '/' + iter + '/report/' + filename;
 
     const params = {
@@ -148,16 +141,16 @@ export class UploadService {
     });
   }
 
-  deleteIteration(project: string, iter:string){
+  deleteIteration(project: string, iter: string) {
     this.deleteIndex(project, iter);
     this.deleteJS(project, iter);
-    const key = project + '/' + iter+'/';
+    const key = project + '/' + iter + '/';
 
     const params = {
       Bucket: this.bucketName,
       Key: key
     };
-    
+
     this.bucket.deleteObject(params, (err, data) => {
       if (err) {
         return;
@@ -165,38 +158,38 @@ export class UploadService {
       console.log(data)
     });
   }
-  deleteIndex(project: string, iter:string){
-    const key = project + '/' + iter+'/index.html';
+  deleteIndex(project: string, iter: string) {
+    const key = project + '/' + iter + '/index.html';
 
     const params = {
       Bucket: this.bucketName,
       Key: key
     };
-    
-    this.bucket.deleteObject(params, (err, data) => {
-      if (err) {
-        return;
-      }
-      console.log(data)
-    });
-  }
-  deleteJS(project: string, iter:string){
-    const key = project + '/' + iter+'/files.js';
 
-    const params = {
-      Bucket: this.bucketName,
-      Key: key
-    };
-    
     this.bucket.deleteObject(params, (err, data) => {
-      if (err) {
-        return;
-      }
-      console.log(data)
-    });
-  }
   
+      if (err) {
+        return;
+      }
+      console.log(data)
+    });
+  }
+  deleteJS(project: string, iter: string) {
 
+    const key = project + '/' + iter + '/files.js';
 
+    const params = {
+      Bucket: this.bucketName,
+      Key: key
+    };
+
+    this.bucket.deleteObject(params, (err, data) => {
+
+      if (err) {
+        return;
+      }
+      console.log(data)
+    });
+  }
 }
 
