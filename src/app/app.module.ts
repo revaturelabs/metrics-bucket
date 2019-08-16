@@ -17,6 +17,7 @@ import { EditReportsComponent } from './components/edit-reports/edit-reports.com
 import { Browser } from 'protractor';
 import { HttpClientModule } from '@angular/common/http';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,8 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
     ViewReportsComponent,
     SafePipe,
     UploadReportsComponent,
-    EditReportsComponent,
-    HttpClientModule
+    EditReportsComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +35,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
