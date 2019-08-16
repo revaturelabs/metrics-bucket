@@ -3,7 +3,8 @@ import { Observable } from 'rxjs';
 import { UploadService } from 'src/app/service/upload.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment.prod';
-
+import { S3 } from 'aws-sdk/clients/all';
+//app\service\upload.service.ts
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) { }
@@ -29,20 +30,37 @@ export class ViewReportsComponent implements OnInit {
   selectedIteration: string;
   iterationViewShow = false;
   testing: any;
+  resp: string;
 
   constructor(private uploadService: UploadService) { }
 
   ngOnInit() {
-    this.testing = this.uploadService.getToken();
-    this.bucketName = environment.bucketName;
+    this.testing = this.uploadService.getToken().then(
+      (result) => {
+        this.uploadService.bucket = new S3({
+          accessKeyId: result.arr[0].accessKeyId,
+          secretAccessKey: result.arr[0].secretAccessKey,
+          sessionToken: result.arr[0].sessionToken,
+          region: "us-east-2", // vhttps://metrics-bucket1906.s3.us-east-2.amazonaws.com/
+          endpoint: "s3.us-east-2.amazonaws.com/"
+        });
+
+    this.bucketName = "metrics-bucket1906";
     this.projectChoice = 'Select Project';
     this.selectedIteration = ' Select Iteration';
+      });
   }
 
   createLink(iter: string) {
     this.iterationViewShow = true;
     this.selectedIteration = iter;
     // tslint:disable-next-line: max-line-length
+
+    this.uploadService.bucket.getObject( {Bucket: this.bucketName, Key: this.projectChoice + '/' + iter + '/index.html'}, (err, file) => {
+        console.log(err);
+        console.log(file);
+        this.resp = file.Body;
+      });
     this.iterationLink = 'https://' + this.bucketName + '.s3.amazonaws.com/' + this.projectChoice + '/' + iter + '/index.html';
   }
 

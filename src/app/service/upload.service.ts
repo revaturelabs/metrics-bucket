@@ -4,8 +4,6 @@ import { Observable } from 'rxjs';
 import { of as observableOf } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { CONTROL } from '@angular/cdk/keycodes';
-import { Browser } from 'selenium-webdriver';
 
 
 
@@ -35,9 +33,7 @@ export class UploadService {
       ACL: "bucket-owner-full-control",
       ContentType: "undefined"
     };
-    console.log(this.bucket);
-
-
+    
     this.bucket.upload(params, (err, data) => {
       if (err) {
         return false;
