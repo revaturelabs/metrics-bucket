@@ -192,9 +192,12 @@ export class UploadReportsComponent implements OnInit {
       </html>
       `]
       , 'index.html', { type: 'text/html' });
+
+    let json = '{"trainerList": "' + trainerList + '", "observerList": "' + observerList + '", "startDate": "' + startDate + '", "endDate": "' + endDate + '", "duration": "' + days + '", "velocity": "' + velocity + '"}'; 
+
     this.jsFile = new File(
       // tslint:disable-next-line: max-line-length
-      [`document.write(\`<b>Files:</b> ${this.fileList.map(file => `<br><a href='report/${file.name}' target='_blank'>${file.name}</a>`)}\`)`]
+      [json]
       , 'files.js', { type: 'application/javascript' });
     const proj = this.project;
     const iter = this.iteration;
@@ -203,7 +206,7 @@ export class UploadReportsComponent implements OnInit {
       uservice.uploadReport(file, proj, iter + '/report/' + file.name);
     });
     this.uploadService.uploadReport(this.indexFile, this.project, this.iteration + '/index.html');
-    //this.uploadService.uploadReport(this.jsFile, this.project, this.iteration + '/files.js');
+    this.uploadService.uploadReport(this.jsFile, this.project, this.iteration + '/files.js');
     setTimeout(() => {
       this.resetValues();
     }, 2000);

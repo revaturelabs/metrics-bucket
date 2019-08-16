@@ -9,7 +9,7 @@ import { UploadService } from 'src/app/service/upload.service';
 })
 export class EditReportsComponent implements OnInit {
 
-  jsFile : File;
+  jsFile: File;
   @Input() projectList: Observable<Array<string>>;
 
   // Edit reports
@@ -32,8 +32,8 @@ export class EditReportsComponent implements OnInit {
   ngOnInit() {
     this.iterationChoice = 'Select Iteration';
     this.projectEdit = 'Select Project';
-    this.fileList=[];
-    this.filesToDel=[];
+    this.fileList = [];
+    this.filesToDel = [];
   }
 
   // Edit Reports methods
@@ -41,7 +41,7 @@ export class EditReportsComponent implements OnInit {
   setProjectEdit(project: string) {
     this.submittedDeleteWarn = false;
     this.projectEdit = project;
-    this.uploadService.getProjectSprints(project).subscribe( iter => {
+    this.uploadService.getProjectSprints(project).subscribe(iter => {
       this.iterationListEdit = iter;
     })
     this.iterationChoice = 'Select Iteration';
@@ -55,11 +55,11 @@ export class EditReportsComponent implements OnInit {
   }
 
   addFile(event) {
-    for(let i = 0; i<event.target.files.length; i++){
+    for (let i = 0; i < event.target.files.length; i++) {
       this.fileList.push(event.target.files.item(i));
       this.filesEdit.push(event.target.files.item(i).name);
     }
-    
+
   }
 
   removeFile(file: string) {
@@ -77,7 +77,7 @@ export class EditReportsComponent implements OnInit {
     this.submittedDeleteWarn = false;
   }
 
-  deleteIteration(){
+  deleteIteration() {
     this.submittedDeleteWarn = false;
     this.submittedDelete = true;
     const uservice = this.uploadService;
@@ -93,9 +93,12 @@ export class EditReportsComponent implements OnInit {
   submitEdit() {
     this.submittedDeleteWarn = false;
     this.submittedEdit = true;
-    this.jsFile = new File(
-      [`document.write(\`<b>Files:</b> ${this.filesEdit.map(file => `<br><a href='report/${file}' target='_blank'>${file}</a>`)}\`)`]
-      , 'files.js', { type: 'application/javascript' });
+
+
+
+   // this.jsFile = new File(
+    //  [`document.write(\`<b>Files:</b> ${this.filesEdit.map(file => `<br><a href='report/${file}' target='_blank'>${file}</a>`)}\`)`]
+    //  , 'files.js', { type: 'application/javascript' });
     const uservice = this.uploadService;
 
     this.fileList.forEach((file) => {
@@ -103,13 +106,45 @@ export class EditReportsComponent implements OnInit {
     });
     this.filesToDel.forEach((file) => {
       uservice.deleteFiles(this.projectEdit, this.iterationChoice, file);
-      console.log(file);
+  //    console.log(file);
     });
 
-    this.uploadService.uploadReport(this.jsFile, this.projectEdit, this.iterationChoice + '/files.js');
-    setTimeout(() => {
-      this.resetValuesEdit();
-    }, 2000);
+    this.uploadService.bucket.getObject({ Bucket: this.uploadService.bucketName, Key: this.projectEdit + "/" + this.iterationChoice + '/files.js' }, (err, file) => {
+
+      let obj = JSON.parse(<string>file.Body);
+      let indexFile = new File(
+        [`
+        <html>
+          <head>
+            <title>Sprint Report - ${obj.iteration}</title>
+          </head>
+          <body>
+            <h1>Sprint Metrics:</h1>
+            <b>Project:</b> ${this.projectEdit} <br>
+            <b>Iteration:</b> ${this.iterationChoice}<br>
+            <b>Trainer(s):</b> ${obj.trainerList} <br>
+            <b>Observer(s):</b> ${obj.observerList} <br>
+            <b>Start Date:</b> ${obj.startDate}<br>
+            <b>End Date:</b> ${obj.endDate} <br>
+            <b>Duration:</b> ${obj.days} day(s) <br>
+            <b>Velocity:</b> ${obj.velocity} user stories per day <br>` +
+            //this.filesEdit.map(file => `<br><a href='report/${file}
+          this.filesEdit.map(file => {
+            let link = this.uploadService.bucket.getSignedUrl('getObject', { Bucket: this.uploadService.bucketName, Key: this.projectEdit + '/' + this.iterationChoice + '/report/' + file });
+            return `<br><a href="${link}">${file}</a>`;
+          })
+          +
+          `</body>
+        </html>
+        `]
+        , 'index.html', { type: 'text/html' });
+
+      this.uploadService.uploadReport(indexFile, this.projectEdit, this.iterationChoice + '/index.html');
+      setTimeout(() => {
+        this.resetValuesEdit();
+      }, 2000);
+    });
+
   }
 
   resetValuesEdit() {
