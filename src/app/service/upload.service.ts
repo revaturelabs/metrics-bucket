@@ -15,6 +15,7 @@ export class UploadService {
 
   constructor(private http: HttpClient) {
    }
+
   bucketName = environment.bucketName;
 
   bucket = new S3(
@@ -38,8 +39,11 @@ export class UploadService {
       console.log(this.bucket);
       console.log(this.bucket.config.region);
 
+
     });
+
   }
+
   uploadReport(file, project: string, filepath: string) {
 
     const params = {
