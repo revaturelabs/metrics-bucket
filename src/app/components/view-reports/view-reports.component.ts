@@ -73,7 +73,7 @@ export class ViewReportsComponent implements OnInit {
         <b>Observer(s):</b> ${obj.observerList} <br>
         <b>Start Date:</b> ${obj.startDate}<br>
         <b>End Date:</b> ${obj.endDate} <br>
-        <b>Duration:</b> ${obj.days} day(s) <br>
+        <b>Duration:</b> ${obj.duration} day(s) <br>
         <b>Velocity:</b> ${obj.velocity} user stories per day <br>`;
 
         data.Contents.forEach(element => {
