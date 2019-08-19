@@ -62,6 +62,12 @@
             Sprint report has been successfully deleted.
         </div>
     </ng-container>
+
+    <ng-container *ngIf="submittedDeleteProject">
+        <div class="alert alert-success mx-auto mt-3 text-center" role="alert">
+            Project has been successfully deleted.
+        </div>
+    </ng-container>
 </div>
 <div class="row">
     <div class="col">

@@ -26,6 +26,7 @@ export class EditReportsComponent implements OnInit {
   submittedDelete: boolean;
   submittedDeleteWarn: boolean;
   completeEdit: boolean;
+  submittedDeleteProject : boolean;
 
   constructor(private uploadService: UploadService) { }
 
@@ -78,14 +79,14 @@ export class EditReportsComponent implements OnInit {
   }
 
   deleteProject() {
-
+    this.submittedDeleteProject = true;
     this.uploadService.bucket.deleteObject({Bucket: this.uploadService.bucketName, Key: this.projectEdit + "/"},
       (err, data) => {
         if (err) {
-          console.log("err: " + err);
+          //console.log("err: " + err);
           return;
         }
-        console.log("success: " + data);
+        //console.log("success: " + data);
       }
       );
     var idx;
@@ -97,7 +98,9 @@ export class EditReportsComponent implements OnInit {
         }
       }
     });
-    this.resetValuesEdit();
+    setTimeout(() => {
+      this.resetValuesEdit();
+    }, 2000);
   }
 
   deleteIteration() {
@@ -141,6 +144,7 @@ export class EditReportsComponent implements OnInit {
     this.submittedEdit = false;
     this.submittedDelete = false;
     this.submittedDeleteWarn = false;
+    this.submittedDeleteProject = false;
     this.filesEdit = undefined;
     this.iterationListEdit = undefined;
     this.fileList = [];
