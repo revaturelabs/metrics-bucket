@@ -23,7 +23,7 @@ export class SprintReportsComponent implements OnInit {
           accessKeyId: result.arr[0].accessKeyId,
           secretAccessKey: result.arr[0].secretAccessKey,
           sessionToken: result.arr[0].sessionToken,
-          region: "us-east-2", // vhttps://metrics-bucket1906.s3.us-east-2.amazonaws.com/
+          region: "us-east-2",
           endpoint: "s3.us-east-2.amazonaws.com/",
           signatureVersion: "v4"
         });

@@ -2,8 +2,7 @@
     <div class="col">
         <div class="input-group">
             <div class="input-group-prepend">
-                <button class="btn btn-outline-secondary dropdown-toggle select" type="button" id="project"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ projectEdit }}</button>
+                <button class="btn btn-outline-secondary dropdown-toggle select" type="button" id="project" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ projectEdit }}</button>
                 <div class="dropdown-menu">
                     <div *ngFor="let project of projectList | async">
                         <p class="dropdown-item" (click)="setProjectEdit(project)"> {{ project }}</p>
@@ -11,11 +10,12 @@
                 </div>
             </div>
             <div class="input-group-append ml-2" *ngIf="iterationListEdit">
-                <button class="btn btn-outline-secondary dropdown-toggle select" type="button" id="iterations"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ iterationChoice }}</button>
+                <button class="btn btn-outline-secondary dropdown-toggle select" type="button" id="iterations" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ iterationChoice }}</button>
                 <div class="dropdown-menu">
                     <ng-container *ngIf="iterationListEdit.length == 0; else iterations">
                         <p class="dropdown-item">No Iterations</p>
+
+                        <button class="btn btn-danger mr-4" (click)="deleteProject()">Delete Project</button>
                     </ng-container>
                     <ng-template #iterations>
                         <div *ngFor="let iter of iterationListEdit">
@@ -36,11 +36,10 @@
                     <li class="list-group-item d-flex justify-content-between align-items-center">No files</li>
                 </ng-container>
                 <ng-template #files>
-                    <div  *ngFor="let file of filesEdit">
+                    <div *ngFor="let file of filesEdit">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <b>File Name:</b> <span class="fileNames">{{ file }}</span>
-                            <span class="badge badge-danger badge-pill" id="remove" title="Remove"
-                            (click)="removeFile(file)">X</span>
+                            <span class="badge badge-danger badge-pill" id="remove" title="Remove" (click)="removeFile(file)">X</span>
                         </li>
                     </div>
                 </ng-template>
@@ -55,12 +54,12 @@
 
     <ng-container *ngIf="submittedEdit">
         <div class="alert alert-success mx-auto mt-3 text-center" role="alert">
-        Sprint report has been successfully updated.
+            Sprint report has been successfully updated.
         </div>
     </ng-container>
     <ng-container *ngIf="submittedDelete">
         <div class="alert alert-success mx-auto mt-3 text-center" role="alert">
-        Sprint report has been successfully deleted.
+            Sprint report has been successfully deleted.
         </div>
     </ng-container>
 </div>
@@ -68,9 +67,9 @@
     <div class="col">
         <ng-container *ngIf="submittedDeleteWarn">
             <div class="alert alert-warning mx-auto mt-3 text-center" role="alert">
-            Are you sure you would like to delete this iteration?
-            <button type="button" class="btn btn-outline-success mr-2" (click)="deleteIteration()">Yes</button>
-            <button type="button" class="btn btn-outline-danger" (click)="resetDelete()">No</button>
+                Are you sure you would like to delete this iteration?
+                <button type="button" class="btn btn-outline-success mr-2" (click)="deleteIteration()">Yes</button>
+                <button type="button" class="btn btn-outline-danger" (click)="resetDelete()">No</button>
             </div>
         </ng-container>
     </div>

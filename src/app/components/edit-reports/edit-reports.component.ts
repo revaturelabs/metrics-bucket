@@ -77,6 +77,18 @@ export class EditReportsComponent implements OnInit {
     this.submittedDeleteWarn = false;
   }
 
+  deleteProject() {
+    this.uploadService.bucket.deleteObject({Bucket: this.uploadService.bucketName, Key: this.projectEdit + "/"},
+      (err, data) => {
+        if (err) {
+          console.log("err: " + err);
+          return;
+        }
+        console.log("success: " + data);
+      }
+      );
+  }
+
   deleteIteration() {
     this.submittedDeleteWarn = false;
     this.submittedDelete = true;
