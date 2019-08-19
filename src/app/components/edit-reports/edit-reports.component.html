@@ -15,7 +15,7 @@
                     <ng-container *ngIf="iterationListEdit.length == 0; else iterations">
                         <p class="dropdown-item">No Iterations</p>
 
-                        <button class="btn btn-danger mr-4" (click)="deleteProject()">Delete Project</button>
+                        <button class="btn btn-danger mr-4" (click)="deleteProject()" style="margin-left: 1em">Delete Project</button>
                     </ng-container>
                     <ng-template #iterations>
                         <div *ngFor="let iter of iterationListEdit">

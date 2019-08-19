@@ -78,6 +78,7 @@ export class EditReportsComponent implements OnInit {
   }
 
   deleteProject() {
+
     this.uploadService.bucket.deleteObject({Bucket: this.uploadService.bucketName, Key: this.projectEdit + "/"},
       (err, data) => {
         if (err) {
@@ -87,6 +88,16 @@ export class EditReportsComponent implements OnInit {
         console.log("success: " + data);
       }
       );
+    var idx;
+    this.projectList.subscribe( elt => {
+      for (idx = 0; idx < elt.length; ++idx) {
+        if (elt[idx] == this.projectEdit) {
+          elt.splice(idx,1);
+          break;
+        }
+      }
+    });
+    this.resetValuesEdit();
   }
 
   deleteIteration() {
