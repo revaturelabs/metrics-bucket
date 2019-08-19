@@ -167,31 +167,7 @@ export class UploadReportsComponent implements OnInit {
       this.projectSelected = true;
     }
 
-    this.indexFile = new File(
-      [`
-      <html>
-        <head>
-          <title>Sprint Report - ${this.iteration}</title>
-        </head>
-        <body>
-          <h1>Sprint Metrics:</h1>
-          <b>Project:</b> ${this.project} <br>
-          <b>Iteration:</b> ${this.iteration} <br>
-          <b>Trainer(s):</b> ${trainerList} <br>
-          <b>Observer(s):</b> ${observerList} <br>
-          <b>Start Date:</b> ${startDate}<br>
-          <b>End Date:</b> ${endDate} <br>
-          <b>Duration:</b> ${days} day(s) <br>
-          <b>Velocity:</b> ${velocity} user stories per day <br>` +
-        this.fileList.map(file => {
-          let link = this.uploadService.bucket.getSignedUrl('getObject', { Bucket: this.uploadService.bucketName, Key: this.project + '/' + this.iteration + '/report/' + file.name });
-          return `<br><a href="${link}">${file.name}</a>`;
-        })
-        +
-        `</body>
-      </html>
-      `]
-      , 'index.html', { type: 'text/html' });
+
 
     let json = '{"trainerList": "' + trainerList + '", "observerList": "' + observerList + '", "startDate": "' + startDate + '", "endDate": "' + endDate + '", "duration": "' + days + '", "velocity": "' + velocity + '"}'; 
 
@@ -205,7 +181,6 @@ export class UploadReportsComponent implements OnInit {
     this.fileList.forEach((file) => {
       uservice.uploadReport(file, proj, iter + '/report/' + file.name);
     });
-    this.uploadService.uploadReport(this.indexFile, this.project, this.iteration + '/index.html');
     this.uploadService.uploadReport(this.jsFile, this.project, this.iteration + '/files.js');
     setTimeout(() => {
       this.resetValues();

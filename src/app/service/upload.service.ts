@@ -49,23 +49,18 @@ export class UploadService {
       Delimiter: '/'
     };
 
-    console.log(this.bucket);
 
     this.bucket.listObjects(params, (err, data) => {
 
       if (err) {
-        console.log(err);
         return;
       }
 
-      console.log(data);
       data.CommonPrefixes.forEach((file) => {
-        console.log(file.Prefix)
         if (file.Prefix !== environment.s3appfolder + '/')//ignores s3 application on bucket
           projects.push(file.Prefix.replace('/', ''));
       });
 
-      console.log(projects);
     });
 
     return observableOf(projects);
@@ -107,10 +102,8 @@ export class UploadService {
   
 
       if (err) {
-       // console.log(err);
         return;
       }
-     // console.log(data);
 
       data.Contents.forEach((file) => {
         files.push(file.Key.replace(prefix, ''));
@@ -150,7 +143,6 @@ export class UploadService {
       if (err) {
         return;
       }
-      console.log(data)
     });
   }
   deleteIndex(project: string, iter: string) {
@@ -166,7 +158,6 @@ export class UploadService {
       if (err) {
         return;
       }
-      console.log(data)
     });
   }
   deleteJS(project: string, iter: string) {
@@ -183,7 +174,6 @@ export class UploadService {
       if (err) {
         return;
       }
-      console.log(data)
     });
   }
 }

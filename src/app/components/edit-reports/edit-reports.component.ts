@@ -106,7 +106,6 @@ export class EditReportsComponent implements OnInit {
     });
     this.filesToDel.forEach((file) => {
       uservice.deleteFiles(this.projectEdit, this.iterationChoice, file);
-  //    console.log(file);
     });
 
       setTimeout(() => {

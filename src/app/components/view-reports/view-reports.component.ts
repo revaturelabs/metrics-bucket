@@ -56,7 +56,7 @@ export class ViewReportsComponent implements OnInit {
     this.iterationViewShow = true;
     this.selectedIteration = iter;
     
-    this.uploadService.bucket.getObject({ Bucket: this.uploadService.bucketName, Key: this.projectChoice + "/" + this.selectedIteration + '/files.js' }, async (err, file) => {
+    this.uploadService.bucket.getObject({ Bucket: this.uploadService.bucketName, Key: this.projectChoice + "/" + this.selectedIteration + '/files.js' }, (err, file) => {
 
 
       this.uploadService.bucket.listObjects({
@@ -75,15 +75,12 @@ export class ViewReportsComponent implements OnInit {
         <b>End Date:</b> ${obj.endDate} <br>
         <b>Duration:</b> ${obj.days} day(s) <br>
         <b>Velocity:</b> ${obj.velocity} user stories per day <br>`;
-        //this.filesEdit.map(file => `<br><a href='report/${file}
 
         data.Contents.forEach(element => {
-          let file2 = element.Key;
-          let m = file2.match(/.+\/(.+?)$/);
-          console.log(file2);
-          let link = this.uploadService.bucket.getSignedUrl('getObject', { Bucket: this.uploadService.bucketName, Key: file2 });
-          console.log(link);
-          this.resp += `<br><a href="${link}">${m[1]}</a>`;
+          // gets the file name from the aboslute path
+          let matches = element.Key.match(/.+\/(.+?)$/);
+          let link = this.uploadService.bucket.getSignedUrl('getObject', { Bucket: this.uploadService.bucketName, Key: element.Key });
+          this.resp += `<br><a href="${link}">${matches[1]}</a>`;
         });
       });
     });
