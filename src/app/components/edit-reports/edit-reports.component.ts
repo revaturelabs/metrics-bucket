@@ -109,42 +109,10 @@ export class EditReportsComponent implements OnInit {
   //    console.log(file);
     });
 
-    this.uploadService.bucket.getObject({ Bucket: this.uploadService.bucketName, Key: this.projectEdit + "/" + this.iterationChoice + '/files.js' }, (err, file) => {
-
-      let obj = JSON.parse(<string>file.Body);
-      let indexFile = new File(
-        [`
-        <html>
-          <head>
-            <title>Sprint Report - ${obj.iteration}</title>
-          </head>
-          <body>
-            <h1>Sprint Metrics:</h1>
-            <b>Project:</b> ${this.projectEdit} <br>
-            <b>Iteration:</b> ${this.iterationChoice}<br>
-            <b>Trainer(s):</b> ${obj.trainerList} <br>
-            <b>Observer(s):</b> ${obj.observerList} <br>
-            <b>Start Date:</b> ${obj.startDate}<br>
-            <b>End Date:</b> ${obj.endDate} <br>
-            <b>Duration:</b> ${obj.days} day(s) <br>
-            <b>Velocity:</b> ${obj.velocity} user stories per day <br>` +
-            //this.filesEdit.map(file => `<br><a href='report/${file}
-          this.filesEdit.map(file => {
-            let link = this.uploadService.bucket.getSignedUrl('getObject', { Bucket: this.uploadService.bucketName, Key: this.projectEdit + '/' + this.iterationChoice + '/report/' + file });
-            return `<br><a href="${link}">${file}</a>`;
-          })
-          +
-          `</body>
-        </html>
-        `]
-        , 'index.html', { type: 'text/html' });
-
-      this.uploadService.uploadReport(indexFile, this.projectEdit, this.iterationChoice + '/index.html');
       setTimeout(() => {
         this.resetValuesEdit();
       }, 2000);
-    });
-
+ 
   }
 
   resetValuesEdit() {

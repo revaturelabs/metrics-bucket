@@ -46,23 +46,47 @@ export class ViewReportsComponent implements OnInit {
           signatureVersion: "v4"
         });
 
-    this.bucketName = "metrics-bucket1906";
-    this.projectChoice = 'Select Project';
-    this.selectedIteration = ' Select Iteration';
+        this.bucketName = "metrics-bucket1906";
+        this.projectChoice = 'Select Project';
+        this.selectedIteration = ' Select Iteration';
       });
   }
 
   createLink(iter: string) {
     this.iterationViewShow = true;
     this.selectedIteration = iter;
-    // tslint:disable-next-line: max-line-length
+    
+    this.uploadService.bucket.getObject({ Bucket: this.uploadService.bucketName, Key: this.projectChoice + "/" + this.selectedIteration + '/files.js' }, async (err, file) => {
 
-    // this.uploadService.bucket.getObject( {Bucket: this.bucketName, Key: this.projectChoice + '/' + iter + '/index.html'}, (err, file) => {
-    //     console.log(err);
-    //     console.log(file);
-    //     this.resp = file.Body;
-    //   });
-    this.iterationLink = this.uploadService.bucket.getSignedUrl('getObject', {Bucket: this.bucketName, Key: this.projectChoice + '/' + iter + '/index.html'});
+
+      this.uploadService.bucket.listObjects({
+        Bucket: this.bucketName,
+        Prefix: this.projectChoice + "/" + this.selectedIteration + "/report/",
+        Delimiter: '/'
+      }, (errinner, data) => {
+      let obj = JSON.parse(<string>file.Body);
+      this.resp = `
+        <h1>Sprint Metrics:</h1>
+        <b>Project:</b> ${this.projectChoice} <br>
+        <b>Iteration:</b> ${this.selectedIteration}<br>
+        <b>Trainer(s):</b> ${obj.trainerList} <br>
+        <b>Observer(s):</b> ${obj.observerList} <br>
+        <b>Start Date:</b> ${obj.startDate}<br>
+        <b>End Date:</b> ${obj.endDate} <br>
+        <b>Duration:</b> ${obj.days} day(s) <br>
+        <b>Velocity:</b> ${obj.velocity} user stories per day <br>`;
+        //this.filesEdit.map(file => `<br><a href='report/${file}
+
+        data.Contents.forEach(element => {
+          let file2 = element.Key;
+          let m = file2.match(/.+\/(.+?)$/);
+          console.log(file2);
+          let link = this.uploadService.bucket.getSignedUrl('getObject', { Bucket: this.uploadService.bucketName, Key: file2 });
+          console.log(link);
+          this.resp += `<br><a href="${link}">${m[1]}</a>`;
+        });
+      });
+    });
   }
 
   showIterations(project: string) {
@@ -81,5 +105,5 @@ export class ViewReportsComponent implements OnInit {
     this.selectedIteration = 'Select Iteration';
   }
 
- 
+
 }

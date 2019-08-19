@@ -25,7 +25,6 @@ export class UploadService {
   }
 
   uploadReport(file, project: string, filepath: string) {
-
     const params = {
       Bucket: this.bucketName,
       Key: project + '/' + filepath,
@@ -33,7 +32,6 @@ export class UploadService {
       ACL: "bucket-owner-full-control",
       ContentType: "undefined"
     };
-    
     this.bucket.upload(params, (err, data) => {
       if (err) {
         return false;
@@ -109,9 +107,10 @@ export class UploadService {
   
 
       if (err) {
+       // console.log(err);
         return;
       }
-
+     // console.log(data);
 
       data.Contents.forEach((file) => {
         files.push(file.Key.replace(prefix, ''));
