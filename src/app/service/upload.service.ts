@@ -13,12 +13,13 @@ import { HttpClient } from '@angular/common/http';
 export class UploadService {
 
   constructor(private http: HttpClient) {
-    this.getToken();
+    //this.getToken();
+
   }
 
   bucketName = environment.bucketName;
-
   bucket: S3 = new S3();
+  //projectList;
 
   getToken() {
     return this.http.get<any>("http://ec2-18-191-211-170.us-east-2.compute.amazonaws.com:9999/tokens").toPromise();

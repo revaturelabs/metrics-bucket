@@ -3,6 +3,8 @@ import { UploadService } from 'src/app/service/upload.service';
 import { Observable } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips'
+import { nextTick } from 'q';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-upload-reports',
@@ -12,6 +14,8 @@ import { MatChipInputEvent } from '@angular/material/chips'
 export class UploadReportsComponent implements OnInit {
 
   @Input() projectList: Observable<Array<string>>;
+  //projectList = this.uploadService.getProjectList();
+
   fileList: File[];
   indexFile: File;
   jsFile: File;
@@ -38,6 +42,7 @@ export class UploadReportsComponent implements OnInit {
   readonly observerSeparatorKeysCodes: number[] = [ENTER, COMMA];
   trainers: string[];
   observers: string[];
+  newProjectName: string;
 
   constructor(private uploadService: UploadService) { }
 
@@ -63,6 +68,19 @@ export class UploadReportsComponent implements OnInit {
     this.projectSelected = true;
     this.project = project;
     this.validate();
+   // if (this.complete) {
+      let add = true;
+      this.projectList.subscribe(
+        elt => { 
+          elt.forEach(e => {if (project == e) { add = false; }}
+          );}
+      );
+      if (add) {
+        this.projectList.subscribe(
+          current => { current.push(project); }
+        );
+      }
+  //  }
   }
 
   validate() {

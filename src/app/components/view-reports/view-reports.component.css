@@ -1,8 +1,9 @@
 .embed-responsive-16by9::before {
-  padding-top: 23.25%;
+    padding-top: 2em;
 }
 
-.btn, .btn-outline-secondary.dropdown-toggle {
-  background-color: rgb(242, 106, 37);
-  color: white;
+.btn,
+.btn-outline-secondary.dropdown-toggle {
+    background-color: rgb(242, 106, 37);
+    color: white;
 }
