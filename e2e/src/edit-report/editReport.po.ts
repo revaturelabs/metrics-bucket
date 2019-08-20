@@ -41,11 +41,24 @@ const Locators = {
   removeIterationConfirmBtn: {
     type: IdentificationType[IdentificationType.Xpath],
     value: '//*[@id="edit-reports"]/app-edit-reports/div[3]/div/div/button[1]'
+  },
+  
+  lastProject: {
+	  type: IdentificationType[IdentificationType.Xpath],
+	  value: '//*[@id="edit-reports"]/app-edit-reports/div[1]/div/div/div/div/div[5]/p'
+  },
+  
+  projectDeleteBtn: {
+	  type: IdentificationType[IdentificationType.Xpath],
+	  value: '//*[@id="edit-reports"]/app-edit-reports/div[1]/div/div/div[2]/div/button'
   }
+
 };
 
 export class EditReport extends BasePage {
 
+  projectDeleteBtn = this.ElementLocator(Locators.projectDeleteBtn);
+  lastProject = this.ElementLocator(Locators.lastProject);
   editReportTab = this.ElementLocator(Locators.editReportTab);
   projectBtn = this.ElementLocator(Locators.projectBtn);
   firstProject = this.ElementLocator(Locators.firstProject);
@@ -67,6 +80,10 @@ export class EditReport extends BasePage {
 
   getFirstProject() {
     return this.firstProject;
+  }
+
+  getLastProject() {
+    return this.lastProject;
   }
 
   getItterationBtn() {
@@ -95,6 +112,10 @@ export class EditReport extends BasePage {
 
   getRemoveIterationBtn() {
     return this.removeIterationBtn;
+  }
+
+  getProjectDeleteBtn() {
+	return this.projectDeleteBtn;
   }
 
   getremoveIterationConfirmBtn() {

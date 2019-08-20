@@ -24,7 +24,7 @@ describe('A user can able to edit previous reports', () => {
     expect(editReport.getProjectBtn().getText()).toBe(firstElementText);
   });
 
-  it('should be able select first itteration', () => {
+  it('should be able select first iteration', () => {
     editReport.getItterationBtn().click();
     const firstIterationText = editReport.getFirstItteration().getText();
     editReport.getFirstItteration().click();
@@ -60,7 +60,7 @@ describe('A user can able to edit previous reports', () => {
     });
   });
 
-  it('should be able to delete iterators', () => {
+  it('should be able to delete iterations', () => {
     editReport.getRemoveIterationBtn().click();
     browser.sleep(2000);
     editReport.getremoveIterationConfirmBtn().click();

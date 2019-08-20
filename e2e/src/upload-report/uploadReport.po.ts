@@ -72,6 +72,15 @@ const Locators = {
   submitbtn: {
     type: IdentificationType[IdentificationType.Xpath],
     value: '//*[@id="submitbtn"]'
+  },
+  
+  newProjectInput: {
+    type: IdentificationType[IdentificationType.Css],
+    value: 'div.newProjectDiv > input'
+  },
+  newProjectButton: {
+    type: IdentificationType[IdentificationType.Css],
+    value: 'div.newProjectDiv > button'
   }
 
 };
@@ -92,6 +101,17 @@ export class UploadTabPage extends BasePage {
   uploadfile = this.ElementLocator(Locators.uploadfile);
   uploadedfile = this.ElementLocator(Locators.uploadedfile);
   submitbtn = this.ElementLocator(Locators.submitbtn);
+
+  newProjectInput = this.ElementLocator(Locators.newProjectInput);
+  newProjectButton = this.ElementLocator(Locators.newProjectButton);
+
+  getNewProjectInput() {
+    return this.newProjectInput;
+  }
+
+  getNewProjectButton() {
+    return this.newProjectButton;
+  }
 
   navigateuploadtab() {
     return this.uploadtab;

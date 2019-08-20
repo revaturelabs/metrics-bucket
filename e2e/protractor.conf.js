@@ -18,15 +18,18 @@ exports.config = {
   specs: [
      //'./src/**/*.e2e-spec.ts',
      './src/upload-report/uploadReport.e2e-spec.ts',
+	'./src/create-project/createProject.e2e-spec.ts',
+	'./src/delete-project/deleteProject.e2e-spec.ts',
     './src/view-report/viewReport.e2e-spec.ts',
     './src/edit-report/editReport.e2e-spec.ts'
+
   ],
 
   capabilities: {
     'browserName': 'chrome',
     chromeOptions: {
       // args: ['start-maximized'],
-      // args: [ "--headless", "--disable-gpu", "--window-size=1000,1000" ]
+      args: [ "--headless", "--disable-gpu", "--window-size=1000,1000" ]
     }
   },
 
