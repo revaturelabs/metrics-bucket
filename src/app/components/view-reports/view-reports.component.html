@@ -1,7 +1,7 @@
-<div class="row mt-4">
+<div name="viewPage"class="row mt-4">
     <div class="col">
         <div class="input-group">
-            <div class="input-group-prepend">
+            <div name="ProjectSelector" class="input-group-prepend">
                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ projectChoice }}</button>
                 <div class="dropdown-menu">
                     <div *ngFor="let project of projectList | async">
@@ -9,7 +9,7 @@
                     </div>
                 </div>
             </div>
-            <div class="input-group-append ml-2" *ngIf="iterationList">
+            <div name="ChosenIteration" class="input-group-append ml-2" *ngIf="iterationList">
                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selectedIteration }}</button>
                 <div class="dropdown-menu">
                     <ng-container *ngIf="iterationList.length == 0; else iterations">
