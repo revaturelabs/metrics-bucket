@@ -70,7 +70,7 @@ export class ViewReportsComponent implements OnInit {
           // gets the file name from the aboslute path
           let matches = element.Key.match(/.+\/(.+?)$/);
           let link = this.uploadService.bucket.getSignedUrl('getObject', { Bucket: this.uploadService.bucketName, Key: element.Key });
-          this.resp += `<br><a href="${link}">${matches[1]}</a>`;
+          this.resp += `<br><a href="${link}" target = '_blank'>${matches[1]}</a>`;
         });
       });
     });
