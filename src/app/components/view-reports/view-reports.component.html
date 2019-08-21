@@ -1,16 +1,16 @@
 <div name="viewPage"class="row mt-4">
     <div class="col">
         <div class="input-group">
-            <div name="ProjectSelector" class="input-group-prepend">
-                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ projectChoice }}</button>
+            <div class="input-group-prepend">
+                <button id="ProjectSelector" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ projectChoice }}</button>
                 <div class="dropdown-menu">
                     <div *ngFor="let project of projectList | async">
                         <p class="dropdown-item" (click)="showIterations(project)"> {{ project }}</p>
                     </div>
                 </div>
             </div>
-            <div name="ChosenIteration" class="input-group-append ml-2" *ngIf="iterationList">
-                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selectedIteration }}</button>
+            <div  class="input-group-append ml-2" *ngIf="iterationList">
+                <button id="ChosenIteration" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ selectedIteration }}</button>
                 <div class="dropdown-menu">
                     <ng-container *ngIf="iterationList.length == 0; else iterations">
                         <p class="dropdown-item">No Iterations</p>
