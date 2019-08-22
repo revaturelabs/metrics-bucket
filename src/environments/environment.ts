@@ -6,7 +6,7 @@ export const environment = {
   production: false,
 
   //domain for backend server
-  backend: "ec2-13-58-213-39.us-east-2.compute.amazonaws.com",
+  backend: "ec2-127-0-0-1.us-east-2.compute.amazonaws.com",
 
   //info for s3 bucket
   bucketName: "mybucketisbucket",
