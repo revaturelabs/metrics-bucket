@@ -1,18 +1,14 @@
 ## S3 Metrics Bucket App Instructions:
 
 1. npm install -y
-2. Set system variables with AMI credentials (may need to restart computer after setting)
-        METRICSS3ACCKEY = [your-access-key]
-        METRICSS3SECKEY = [your-secret-key]
-3. set environment.prod.ts and environment.ts variables
+2. set src/environment/environment.prod.ts and src/environment/environment.ts variables
+        backend         (domain name of backend server, excluding http and port, ie: ec2-127-0-0-1.us-east-2.compute.amazonaws.com)
         bucketName      (name of bucket)
-        region	        (check region name and use region column: 
+        region	        (check region name and use region column -- region name of s3, not ec2: 
                             https://docs.aws.amazon.com/general/latest/gr/rande.html)
         s3appfolder     (the folder you want to send build application to)
-4. ng build --baseHref="./"
-5. Install and Configure the AWS CLI (https://aws.amazon.com/getting-started/tutorials/backup-to-s3-cli/)
-6. aws s3 cp [path/to/angular/dist/appname] s3://[bucketName]/ --recursive
-
+3. ng build --baseHref="./"
+4. copy output in dist folder to a *DIFFERENT* *public* s3 bucket or find a different host
 
 # S3BucketApp
 
