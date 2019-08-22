@@ -32,7 +32,7 @@ describe('A user can able to edit previous reports', () => {
   });
 
   it('should be able to upload new files', () => {
-    const fileName = 'file.txt';
+    const fileName = 'zzfile.txt';
     const filepath = process.cwd() + '\\src\\assets\\testFiles.\\' + fileName;
     editReport.getAddFilesInputBox().sendKeys(filepath);
     editReport.getUpdateBtn().click();
@@ -47,7 +47,7 @@ describe('A user can able to edit previous reports', () => {
   });
 
   it('should be able to remove files', () => {
-    const fileName = 'file.txt';
+    const fileName = 'zzfile.txt';
     editReport.getLastFileRemoveBtn().click();
     editReport.getUpdateBtn().click();
     browser.sleep(2000);

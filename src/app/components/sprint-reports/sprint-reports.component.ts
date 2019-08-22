@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UploadService } from 'src/app/service/upload.service';
 import { Observable } from 'rxjs';
 import { S3 } from 'aws-sdk/clients/all';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-sprint-reports',
@@ -12,7 +13,6 @@ import { S3 } from 'aws-sdk/clients/all';
 export class SprintReportsComponent implements OnInit {
 
   projectList: Observable<Array<string>>;
-
   constructor(
     private uploadService: UploadService) { }
 
@@ -23,8 +23,7 @@ export class SprintReportsComponent implements OnInit {
           accessKeyId: result.arr[0].accessKeyId,
           secretAccessKey: result.arr[0].secretAccessKey,
           sessionToken: result.arr[0].sessionToken,
-          region: "us-east-2",
-          endpoint: "s3.us-east-2.amazonaws.com/",
+          region: environment.region,
           signatureVersion: "v4"
         });
 

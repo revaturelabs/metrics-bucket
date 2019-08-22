@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewEncapsulation, ElementRef, PipeTransform,
 import { Observable } from 'rxjs';
 import { UploadService } from 'src/app/service/upload.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { S3 } from 'aws-sdk/clients/all';
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
@@ -22,9 +22,7 @@ export class SafePipe implements PipeTransform {
 export class ViewReportsComponent implements OnInit {
 
   @Input() projectList: Observable<Array<string>>;
-//  projectList = this.uploadService.getProjectList();
-
-  bucketName: string;
+  bucketName: string = environment.bucketName;
   projectChoice: string;
   iterationList: string[];
   iterationLink: string;
@@ -36,8 +34,6 @@ export class ViewReportsComponent implements OnInit {
   constructor(private uploadService: UploadService) { }
 
   ngOnInit() {
-
-    this.bucketName = "metrics-bucket1906";
     this.projectChoice = 'Select Project';
     this.selectedIteration = ' Select Iteration';
   }

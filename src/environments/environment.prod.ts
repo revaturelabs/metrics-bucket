@@ -1,10 +1,11 @@
 export const environment = {
   production: true,
-  bucketName: "metrics-bucket1906",
 
-  accessKey: login.env.METRICSS3ACCKEY,
-  secretKey: login.env.METRICSS3SECKEY,
+  //domain for backend server
+  backend: "ec2-13-58-213-39.us-east-2.compute.amazonaws.com",
 
-  region: 'us-east-2',
+  //info for s3 bucket
+  bucketName: "production",
+  region: 'us-east-1',
   s3appfolder: '/',
 };

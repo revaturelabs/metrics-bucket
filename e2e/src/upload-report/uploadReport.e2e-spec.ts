@@ -69,7 +69,7 @@ describe('A user is able to upload file to s3 bucket', () => {
 
   // the input box will always be empty (reasons to why we are checking emptiness)
   it('should be able to select a file from testfile folder in asset ', () => {
-    const filepath = process.cwd() + '\\src\\assets\\testFiles.\\file.txt';
+    const filepath = process.cwd() + '\\src\\assets\\testFiles\\zzfile.txt';
     UploadTab.uploadafile().sendKeys(filepath);
     browser.sleep(5000);
     expect(UploadTab.getuploadedfile().isDisplayed()).toBeTruthy();

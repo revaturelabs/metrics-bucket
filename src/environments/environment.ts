@@ -4,13 +4,16 @@
 
 export const environment = {
   production: false,
-  bucketName: "metrics-bucket1906",
-  accessKey: login.env.METRICSS3ACCKEY,
-  secretKey: login.env.METRICSS3SECKEY,
 
-  region: 'us-east-2',
+  //domain for backend server
+  backend: "ec2-13-58-213-39.us-east-2.compute.amazonaws.com",
+
+  //info for s3 bucket
+  bucketName: "mybucketisbucket",
+  region: 'us-east-1',
   s3appfolder: '/',
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file

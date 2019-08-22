@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UploadService } from 'src/app/service/upload.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-edit-reports',
@@ -8,6 +9,8 @@ import { UploadService } from 'src/app/service/upload.service';
   styleUrls: ['./edit-reports.component.css']
 })
 export class EditReportsComponent implements OnInit {
+
+  env = environment.bucketName;
 
   jsFile: File;
   @Input() projectList: Observable<Array<string>>;
