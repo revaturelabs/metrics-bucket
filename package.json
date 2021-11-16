@@ -23,7 +23,7 @@
     "@angular/platform-browser": "~8.0.1",
     "@angular/platform-browser-dynamic": "~8.0.1",
     "@angular/router": "~8.0.1",
-    "aws-sdk": "^2.502.0",
+    "aws-sdk": "^2.814.0",
     "bootstrap": "^4.3.1",
     "dotenv": "^8.0.0",
     "popper.js": "^1.15.0",
